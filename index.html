@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nudge Studio — Retention, made famous.</title>
+<meta name="description" content="A retention studio for founder-led consumer brands. Klaviyo & SMS programs that compound.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   NUDGE STUDIO — DESIGN SYSTEM
+   Tokens, type, layout, components.
+   ===================================================================== */
+:root {
+  --bg: #0E0E0E;
+  --bg-1: #141210;
+  --bg-2: #1A1815;
+  --fg: #F2EFEA;
+  --fg-2: #D9D4CB;
+  --muted: #8A857E;
+  --muted-2: #5A554F;
+  --line: #262320;
+  --line-2: #332F2B;
+  --accent: #E3A34A;
+  --accent-soft: #5c4323;
+  --ok: #6BD26B;
+
+  --display: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --body: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --pad-x: clamp(24px, 4.5vw, 80px);
+  --maxw: 1440px;
+}
+
+[data-theme="light"] {
+  --bg: #F2EFEA;
+  --bg-1: #EAE6DF;
+  --bg-2: #E2DDD4;
+  --fg: #141210;
+  --fg-2: #2A2724;
+  --muted: #6C6760;
+  --muted-2: #A39E96;
+  --line: #D9D4CB;
+  --line-2: #C4BEB3;
+  --accent-soft: #F3D9A8;
+}
+
+[data-theme="paper"] {
+  --bg: #FFFFFF;
+  --bg-1: #F7F7F7;
+  --bg-2: #EFEFEF;
+  --fg: #000000;
+  --fg-2: #1A1A1A;
+  --muted: #5A5A5A;
+  --muted-2: #8C8C8C;
+  --line: #E5E5E5;
+  --line-2: #CCCCCC;
+  --accent-soft: rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  letter-spacing: -0.005em;
+  transition: background .3s ease, color .3s ease;
+}
+p { font-size: 17px; line-height: 1.6; color: var(--fg-2); }
+h1, h2, h3, h4, h5 { text-wrap: balance; margin: 0; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+img, svg { display: block; max-width: 100%; }
+
+/* Type ---------------------------------------------------------------- */
+.display { font-family: var(--display); font-weight: 300; letter-spacing: -0.025em; line-height: 1.02; text-wrap: balance; }
+.display-xl { font-size: clamp(40px, 5.2vw, 72px); line-height: 1.02; letter-spacing: -0.028em; }
+.display-l  { font-size: clamp(34px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.024em; }
+.display-m  { font-size: clamp(28px, 3.0vw, 44px); line-height: 1.10; letter-spacing: -0.020em; }
+.display-s  { font-size: clamp(22px, 2.2vw, 32px); line-height: 1.15; letter-spacing: -0.016em; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); }
+.meta { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; }
+.lede { font-size: clamp(18px, 1.25vw, 20px); line-height: 1.5; color: var(--fg-2); max-width: 62ch; text-wrap: pretty; font-weight: 400; }
+
+/* Layout -------------------------------------------------------------- */
+.container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x); }
+.section { padding: clamp(56px, 7vw, 112px) 0; }
+.section-t { border-top: 1px solid var(--line); }
+.row { display: flex; }
+.between { display: flex; justify-content: space-between; align-items: center; }
+.stack { display: flex; flex-direction: column; gap: 24px; }
+
+/* Nav ----------------------------------------------------------------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: calc(20px + env(safe-area-inset-top)) var(--pad-x) 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s ease, background .3s ease;
+}
+.nav.scrolled { border-bottom-color: var(--line); }
+.wordmark {
+  font-family: var(--display); font-weight: 500; font-size: 18px;
+  letter-spacing: -0.02em;
+  display: inline-flex; align-items: center; gap: 10px; white-space: nowrap;
+}
+.wordmark .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--fg); display: inline-block; }
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-links a { font-size: 14px; color: var(--fg-2); position: relative; padding: 4px 0; transition: color .2s ease; }
+.nav-links a:hover, .nav-links a.active { color: var(--fg); }
+.nav-links a.active::after, .nav-links a:hover::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--accent);
+}
+.nav-right { display: flex; gap: 16px; align-items: center; }
+
+.theme-toggle {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg-2); border: 0; border-bottom: 1px solid var(--line-2);
+  padding: 2px 0; cursor: pointer; transition: color 160ms ease, border-color 160ms ease;
+  display: inline-flex; align-items: center; gap: 6px; line-height: 1;
+}
+.theme-toggle:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.theme-toggle::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--fg);
+  box-shadow: inset 3px 0 0 var(--bg); flex-shrink: 0;
+}
+
+/* Buttons ------------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-radius: 2px; font-size: 14px;
+  letter-spacing: -0.005em; cursor: pointer; white-space: nowrap;
+  transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn-primary { background: var(--fg); color: var(--bg); }
+.btn-primary:hover { background: var(--accent); color: #141210; }
+.btn-primary .live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--ok);
+  box-shadow: 0 0 10px 2px rgba(107,210,107,0.4); animation: pulse 2s infinite;
+}
+.btn-ghost { color: var(--fg); border: 1px solid var(--line-2); background: transparent; }
+.btn-ghost:hover { border-color: var(--fg); }
+.btn-link {
+  font-size: 14px; color: var(--fg-2); padding: 0;
+  display: inline-flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--line-2); padding-bottom: 4px;
+}
+.btn-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+/* Chips --------------------------------------------------------------- */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em; color: var(--fg-2);
+}
+.chip .num { color: var(--accent); }
+
+/* Availability pill --------------------------------------------------- */
+.avail {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg-2);
+  background: color-mix(in oklab, var(--accent) 6%, transparent);
+}
+.avail .pulse {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 60%, transparent);
+  animation: avail-pulse 2.2s infinite;
+}
+@keyframes avail-pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 60%, transparent); }
+  70%  { box-shadow: 0 0 0 8px color-mix(in oklab, var(--accent) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 0%, transparent); }
+}
+
+/* Placeholder imagery ------------------------------------------------- */
+.ph {
+  position: relative; background: var(--bg-1); overflow: hidden; border: 1px solid var(--line);
+  display: flex; align-items: flex-end; justify-content: flex-start;
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  letter-spacing: 0.04em; padding: 16px;
+}
+.ph::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in oklab, var(--fg) 5%, transparent) 18px 19px);
+  pointer-events: none;
+}
+.ph-label { position: relative; z-index: 2; background: var(--bg); padding: 4px 8px; border: 1px solid var(--line-2); }
+
+/* Marquee ------------------------------------------------------------- */
+.marquee-wrap {
+  overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 32px 0; position: relative;
+}
+.marquee-wrap::before, .marquee-wrap::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 3; pointer-events: none;
+}
+.marquee-wrap::before { left: 0;  background: linear-gradient(90deg,  var(--bg), transparent); }
+.marquee-wrap::after  { right: 0; background: linear-gradient(-90deg, var(--bg), transparent); }
+.marquee { display: flex; gap: 64px; animation: scroll 60s linear infinite; width: max-content; }
+.marquee:hover { animation-play-state: paused; }
+.marquee-row + .marquee-row { margin-top: 20px; }
+.marquee .logo {
+  font-family: var(--display); font-weight: 400; font-size: 28px;
+  letter-spacing: -0.02em; color: var(--muted); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 12px; transition: color .2s ease;
+}
+.marquee .logo::before { content: "○"; color: var(--muted-2); font-size: 14px; }
+.marquee .logo:hover { color: var(--fg); }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Founder strip ------------------------------------------------------- */
+.founder {
+  display: grid; grid-template-columns: 200px 1fr; gap: 64px; align-items: center;
+  padding: clamp(56px, 7vw, 96px) 0;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.founder-photo {
+  width: 180px; height: 180px; border-radius: 50%; overflow: hidden;
+  border: 1px solid var(--line); background: var(--bg-1); position: relative;
+  display: flex; align-items: flex-end; justify-content: flex-start;
+}
+.founder-photo .ph-label { position: absolute; bottom: 12px; left: 12px; font-size: 9px; }
+.founder-photo::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in oklab, var(--fg) 5%, transparent) 14px 15px);
+}
+.founder-name { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 2.3vw, 32px); letter-spacing: -0.02em; line-height: 1.1; margin: 16px 0 8px; color: var(--fg); }
+.founder-role { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.founder-quote {
+  font-family: var(--display); font-weight: 300;
+  font-size: clamp(20px, 1.7vw, 24px); line-height: 1.4; letter-spacing: -0.012em;
+  color: var(--fg); margin: 28px 0; max-width: 60ch; position: relative; padding: 0 12px;
+}
+.founder-quote::before {
+  content: "“"; font-family: var(--display); font-size: 48px; color: var(--accent);
+  position: absolute; left: -28px; top: -6px; line-height: 1;
+}
+.founder-quote::after { content: "”"; font-family: var(--display); color: var(--accent); margin-left: 4px; }
+.founder-meta {
+  display: flex; flex-wrap: wrap; gap: 12px 24px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+}
+.founder-meta span { display: inline-flex; align-items: center; gap: 8px; }
+.founder-meta span + span::before { content: "·"; color: var(--line-2); margin-right: 16px; }
+
+/* Press / partners --------------------------------------------------- */
+.partners {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 48px; padding: 40px 0;
+}
+.partner { font-family: var(--display); font-weight: 400; font-size: 22px; letter-spacing: -0.02em; color: var(--muted); }
+
+/* Case grid ----------------------------------------------------------- */
+.work-section { padding: clamp(64px, 7vw, 110px) 0; }
+.work-container {
+  max-width: 1200px;
+  padding-left: clamp(20px, 3vw, 40px);
+  padding-right: clamp(20px, 3vw, 40px);
+}
+.case-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 1.8vw, 32px) clamp(20px, 1.6vw, 28px);
+}
+.case-tile {
+  cursor: pointer; position: relative;
+  display: flex; flex-direction: column;
+  transition: transform .4s cubic-bezier(.2,.7,.2,1);
+}
+.case-tile:hover { transform: translateY(-4px); }
+.case-img { aspect-ratio: 4/3; margin-bottom: 18px; overflow: hidden; position: relative; }
+.case-img .ph { width: 100%; height: 100%; }
+.case-meta-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.case-brand { font-family: var(--display); font-weight: 400; font-size: 22px; letter-spacing: -0.02em; }
+.case-outcome { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.04em; white-space: nowrap; }
+.case-desc { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.5; max-width: 42ch; }
+.case-kpi-line {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px dashed var(--line-2);
+  display: flex; align-items: baseline; gap: 10px;
+}
+.case-kpi-v { font-family: var(--display); font-weight: 400; font-size: 22px; letter-spacing: -0.014em; color: var(--fg); }
+.case-kpi-l { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.case-tags {
+  margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 10px; color: var(--muted-2);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.case-flag { display: inline-flex; align-items: center; padding: 3px 8px; border: 1px dashed var(--line-2); border-radius: 999px; color: var(--muted-2); }
+
+/* Stats --------------------------------------------------------------- */
+.stats { background: var(--bg-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0; }
+.stats .container { padding-top: 0; padding-bottom: 0; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat { padding: 32px; border-right: 1px solid var(--line); position: relative; display: flex; flex-direction: column; }
+.stat:last-child { border-right: 0; }
+.stat-meta { font-family: var(--mono); font-size: 11px; color: var(--muted-2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; }
+.stat-num { font-family: var(--display); font-weight: 300; font-size: clamp(40px, 3.8vw, 60px); letter-spacing: -0.03em; line-height: 1; color: var(--fg); display: flex; align-items: baseline; }
+.stat-num .unit { color: var(--accent); font-size: 0.5em; margin-left: 4px; }
+.stat-label { margin-top: 16px; font-size: 13px; color: var(--muted); line-height: 1.5; max-width: 28ch; }
+
+/* Services ------------------------------------------------------------ */
+.svc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.svc {
+  padding: 48px 40px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line);
+  min-height: 320px; display: flex; flex-direction: column; justify-content: space-between;
+  transition: background .3s ease; position: relative;
+}
+.svc:nth-child(2n) { border-right: 0; }
+.svc:hover { background: var(--bg-1); }
+.svc-num { font-family: var(--mono); font-size: 12px; color: var(--muted-2); letter-spacing: 0.1em; }
+.svc-title { font-family: var(--display); font-weight: 400; font-size: 32px; letter-spacing: -0.02em; margin: 20px 0 16px; }
+.svc-desc { color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 48ch; }
+.svc-link { margin-top: 28px; font-size: 13px; color: var(--fg); display: inline-flex; align-items: center; gap: 8px; }
+.svc-link::after { content: "→"; transition: transform .3s ease; }
+.svc:hover .svc-link::after { transform: translateX(6px); color: var(--accent); }
+
+/* Method -------------------------------------------------------------- */
+.method-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.method-step { padding: 32px 24px; border-right: 1px solid var(--line); position: relative; }
+.method-step:last-child { border-right: 0; }
+.method-num { font-family: var(--display); font-weight: 300; font-size: 44px; color: var(--fg); line-height: 1; letter-spacing: -0.03em; }
+.method-num .accent { color: var(--accent); }
+.method-title { margin-top: 20px; font-size: 16px; font-weight: 500; }
+.method-desc { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+/* Deliverability moat ------------------------------------------------- */
+.moat-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; margin-top: 64px; align-items: start; }
+.moat-list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.moat-item { display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+.moat-num { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--accent); padding-top: 4px; }
+.moat-title { font-family: var(--display); font-weight: 400; font-size: 19px; letter-spacing: -0.012em; line-height: 1.25; color: var(--fg); margin: 0 0 8px; }
+.moat-desc { margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.moat-card {
+  border: 1px solid var(--line); background: var(--bg-1);
+  padding: 36px 32px; display: flex; flex-direction: column; gap: 20px;
+  position: sticky; top: 100px;
+}
+.moat-card-eyebrow { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.moat-card-num { font-family: var(--display); font-weight: 300; font-size: clamp(56px, 6vw, 84px); letter-spacing: -0.03em; line-height: 1; color: var(--fg); }
+.moat-card-num .accent { color: var(--accent); }
+.moat-card-sub { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-2); }
+.moat-bars { display: flex; flex-direction: column; gap: 14px; margin-top: 6px; }
+.moat-bar { display: grid; grid-template-columns: 60px 1fr 50px; gap: 12px; align-items: center; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.moat-bar-label { color: var(--fg-2); }
+.moat-bar-track { height: 4px; background: var(--line); position: relative; overflow: hidden; }
+.moat-bar-fill  { position: absolute; top: 0; left: 0; bottom: 0; background: var(--accent); }
+.moat-bar-val   { color: var(--accent); text-align: right; font-variant-numeric: tabular-nums; }
+.moat-card-foot { margin-top: 8px; padding-top: 14px; border-top: 1px dashed var(--line-2); font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted-2); line-height: 1.5; }
+
+/* Testimonials -------------------------------------------------------- */
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.testimonial { padding: 48px 40px 40px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; }
+.testimonial:last-child { border-right: 0; }
+.testimonial-quote { font-family: var(--display); font-weight: 300; font-size: 17px; line-height: 1.5; letter-spacing: -0.01em; color: var(--fg); text-wrap: pretty; }
+.testimonial-quote::before { content: "“"; color: var(--accent); margin-right: 2px; }
+.testimonial-foot { display: flex; align-items: center; gap: 14px; margin-top: 18px; }
+.avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg-2); border: 1px solid var(--line-2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  letter-spacing: 0.04em; flex-shrink: 0;
+}
+.testimonial-name { font-size: 14px; font-weight: 500; }
+.testimonial-title { font-size: 12px; color: var(--muted); font-family: var(--mono); letter-spacing: 0.04em; margin-top: 2px; }
+
+/* Journal ------------------------------------------------------------- */
+.journal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.journal-card {
+  cursor: pointer; border: 1px solid var(--line); padding: 24px;
+  display: flex; flex-direction: column; min-height: 380px;
+  transition: border-color .3s ease, background .3s ease;
+}
+.journal-card:hover { border-color: var(--line-2); background: var(--bg-1); }
+.journal-card .ph { aspect-ratio: 3/2; margin-bottom: 20px; }
+.journal-cat { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; }
+.journal-title { font-family: var(--display); font-weight: 400; font-size: 22px; letter-spacing: -0.015em; line-height: 1.2; margin: 12px 0 16px; text-wrap: balance; }
+.journal-byline { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-top: auto; }
+
+/* Apply form --------------------------------------------------------- */
+.apply-band { background: var(--bg-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.apply-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding: clamp(60px, 8vw, 120px) 0; }
+.apply-copy h2 { margin: 20px 0 0; }
+.apply-note { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.form { display: flex; flex-direction: column; gap: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 8px; position: relative; }
+.field label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.field label .req { color: var(--accent); margin-left: 2px; }
+.field input, .field textarea, .field select {
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--line-2); padding: 14px 16px;
+  font-family: var(--body); font-size: 15px; border-radius: 2px;
+  transition: border-color .2s ease;
+}
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--accent); }
+.multi { display: flex; flex-wrap: wrap; gap: 8px; }
+.multi input { display: none; }
+.multi label {
+  padding: 10px 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  font-family: var(--body); font-size: 13px; color: var(--fg-2);
+  text-transform: none; letter-spacing: 0; cursor: pointer; transition: all .2s ease;
+}
+.multi input:checked + label { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+/* Inbox mock --------------------------------------------------------- */
+.inbox { background: var(--bg); border: 1px solid var(--line); padding: 0; font-family: var(--body); }
+.inbox-chrome {
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em;
+}
+.inbox-chrome .dots { display: flex; gap: 6px; }
+.inbox-chrome .dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); }
+.inbox-row {
+  padding: 16px; border-bottom: 1px solid var(--line);
+  display: grid; grid-template-columns: 1fr 5fr 1fr; gap: 16px;
+  align-items: baseline; cursor: default; transition: background .15s ease;
+}
+.inbox-row:hover { background: var(--bg-1); }
+.inbox-row:last-child { border-bottom: 0; }
+.inbox-row.unread { font-weight: 500; }
+.inbox-from { color: var(--fg); font-size: 14px; }
+.inbox-subj { color: var(--fg-2); font-size: 14px; }
+.inbox-subj .preview { color: var(--muted); font-weight: 400; }
+.inbox-time { color: var(--muted); font-family: var(--mono); font-size: 11px; text-align: right; }
+
+/* Footer + instrument bar -------------------------------------------- */
+.footer { border-top: 1px solid var(--line); padding: 56px 0 28px; }
+.footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px; }
+.footer h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin: 0 0 20px; font-weight: 400; }
+.footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.footer ul a { font-size: 14px; color: var(--fg-2); }
+.footer ul a:hover { color: var(--accent); }
+.footer-sign { margin-top: 20px; font-family: var(--display); font-size: clamp(72px, 12vw, 200px); font-weight: 300; letter-spacing: -0.04em; line-height: 0.9; color: var(--fg); }
+.footer-sign .faint { color: var(--line-2); }
+.footer-bottom {
+  margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em;
+}
+
+.instr-bar { margin: 80px 0 40px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.instr-top {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2);
+}
+.instr-top .dot-live {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--ok);
+  box-shadow: 0 0 0 0 rgba(107,210,107,0.5); animation: pulse 2s infinite; display: inline-block;
+}
+.instr-top .sep { color: var(--muted-2); }
+.instr-top time { color: var(--accent); font-variant-numeric: tabular-nums; }
+.instr-strip { display: grid; grid-template-columns: repeat(5, 1fr); }
+.instr-cell {
+  padding: 24px 20px; border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 8px; min-height: 120px;
+}
+.instr-cell:last-child { border-right: 0; }
+.instr-n { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.instr-v { font-family: var(--display); font-weight: 300; font-size: clamp(30px, 2.6vw, 40px); letter-spacing: -0.025em; line-height: 1; color: var(--fg); display: inline-flex; align-items: baseline; gap: 8px; }
+.instr-v .u { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+.instr-note { font-family: 'Inter Tight', serif; font-style: italic; font-size: 12px; color: var(--fg-2); margin-top: auto; letter-spacing: -0.005em; }
+
+/* Reveal animations -------------------------------------------------- */
+[data-reveal] {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--delay, 0ms);
+}
+[data-reveal].in { opacity: 1; transform: none; }
+
+/* Modal --------------------------------------------------------------- */
+.modal-wrap {
+  position: fixed; inset: 0; z-index: 100;
+  background: color-mix(in oklab, #000 78%, transparent);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .3s ease; padding: 24px;
+}
+.modal-wrap.open { opacity: 1; pointer-events: auto; }
+.modal {
+  background: var(--bg); border: 1px solid var(--line);
+  max-width: 720px; width: 100%; max-height: 92vh; overflow-y: auto;
+  position: relative; padding: 56px;
+}
+.modal-close {
+  position: absolute; top: 20px; right: 20px; z-index: 5;
+  width: 44px; height: 44px;
+  border: 1px solid var(--line-2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; background: var(--bg);
+}
+.modal-close:hover { border-color: var(--fg); }
+
+/* Mobile drawer + hamburger ------------------------------------------ */
+.nav-hamburger {
+  display: none; width: 44px; height: 44px;
+  align-items: center; justify-content: center;
+  border: 1px solid var(--line); background: transparent; border-radius: 0;
+}
+.nav-hamburger .bars { display: flex; flex-direction: column; gap: 5px; width: 18px; }
+.nav-hamburger .bars span { height: 1.5px; background: var(--fg); border-radius: 1px; transition: transform .25s ease, opacity .2s ease; }
+body.drawer-open .nav-hamburger .bars span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+body.drawer-open .nav-hamburger .bars span:nth-child(2) { opacity: 0; }
+body.drawer-open .nav-hamburger .bars span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.mobile-drawer {
+  position: fixed; inset: 0; background: var(--bg); z-index: 60;
+  display: flex; flex-direction: column;
+  padding: calc(84px + env(safe-area-inset-top)) 24px calc(32px + env(safe-area-inset-bottom));
+  transform: translateX(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1);
+  overflow-y: auto;
+}
+.mobile-drawer.open { transform: translateX(0); }
+.mobile-drawer a {
+  display: block; font-family: var(--display); font-weight: 300;
+  font-size: 36px; letter-spacing: -0.02em;
+  padding: 18px 0; border-bottom: 1px solid var(--line); color: var(--fg);
+}
+.mobile-drawer a .idx { font-family: var(--mono); font-size: 11px; color: var(--muted-2); letter-spacing: 0.12em; margin-right: 14px; vertical-align: middle; }
+.mobile-drawer .drawer-foot { margin-top: auto; padding-top: 32px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-2); text-transform: uppercase; display: flex; flex-direction: column; gap: 8px; }
+.mobile-drawer .drawer-cta {
+  margin-top: 32px; padding: 18px; text-align: center;
+  background: var(--accent); color: #111; border: 0;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase; font-weight: 600; cursor: pointer;
+}
+
+/* Sticky CTA (mobile) ------------------------------------------------- */
+.sticky-cta {
+  display: none;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  background: color-mix(in oklab, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  align-items: center; gap: 10px;
+}
+.sticky-cta-btn { flex: 1; justify-content: center; padding: 12px 16px; font-size: 13px; letter-spacing: 0.06em; }
+
+/* Responsive --------------------------------------------------------- */
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .nav { padding: calc(12px + env(safe-area-inset-top)) 16px 12px; gap: 12px; }
+  .nav-right .meta { display: none; }
+  .nav-right .theme-toggle { display: none; }
+  .nav-hamburger { display: inline-flex !important; order: 1; }
+  .nav .btn-primary { padding: 8px 12px; font-size: 12px; letter-spacing: 0.04em; }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .stat:nth-child(2n) { border-right: 0; }
+  .case-grid { grid-template-columns: repeat(2, 1fr); }
+  .svc-grid { grid-template-columns: 1fr; }
+  .svc { border-right: 0 !important; }
+  .method-grid { grid-template-columns: repeat(2, 1fr); }
+  .method-step:nth-child(2n) { border-right: 0; }
+  .method-step:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .testimonial { border-right: 0; border-bottom: 1px solid var(--line); }
+  .journal-grid { grid-template-columns: 1fr; }
+  .apply-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+
+  .moat-grid { grid-template-columns: 1fr; gap: 40px; }
+  .moat-card { position: static; }
+  .instr-strip { grid-template-columns: repeat(3, 1fr); }
+  .instr-cell:nth-child(3n) { border-right: 0; }
+  .instr-cell { border-bottom: 1px solid var(--line); }
+  .instr-cell:nth-last-child(-n+2) { border-bottom: 0; }
+
+  .hero-grid { grid-template-columns: 1fr !important; }
+
+  .sticky-cta { display: flex; }
+  body { padding-bottom: 64px; }
+}
+
+@media (max-width: 720px) {
+  :root { --pad-x: 20px; }
+  body { font-size: 16px; line-height: 1.55; }
+  .display-xl { font-size: 40px; }
+  .display-l  { font-size: 32px; }
+  .display-m  { font-size: 26px; }
+  .section { padding: 48px 0; }
+  .case-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .stat { padding: 24px 16px; }
+  .method-grid { grid-template-columns: 1fr; }
+  .method-step { border-right: 0; border-bottom: 1px solid var(--line); }
+  .method-step:last-child { border-bottom: 0; }
+  .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-wrap: wrap; gap: 8px 14px; }
+  .founder { grid-template-columns: 1fr; gap: 32px; }
+  .founder-photo { width: 96px; height: 96px; }
+  .instr-strip { grid-template-columns: repeat(2, 1fr); }
+  .instr-cell:nth-child(2n) { border-right: 0; }
+  .modal { padding: 32px 22px; }
+  .btn { width: 100%; justify-content: center; }
+  .row .btn { width: auto; }
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a href="#" class="wordmark"><span class="dot"></span>Nudge Studio</a>
+  <nav class="nav-links">
+    <a href="#work-preview">Work</a>
+    <a href="#method">Method</a>
+    <a href="#deliverability">Deliverability</a>
+    <a href="#journal">Journal</a>
+    <a href="#apply">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <span class="meta" style="letter-spacing:.12em;">TORONTO · 43.65°N 79.38°W</span>
+    <button class="theme-toggle" id="theme-toggle" type="button">Light</button>
+    <button class="btn btn-primary" data-book>
+      <span class="live-dot"></span>Book a call
+    </button>
+    <button class="nav-hamburger" aria-label="Open menu" id="drawer-toggle">
+      <span class="bars"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE DRAWER -->
+<aside class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+  <a href="#work-preview" data-drawer-close><span class="idx">01</span>Work</a>
+  <a href="#services" data-drawer-close><span class="idx">02</span>Project work</a>
+  <a href="#method" data-drawer-close><span class="idx">03</span>Method</a>
+  <a href="#deliverability" data-drawer-close><span class="idx">04</span>Deliverability</a>
+  <a href="#studio" data-drawer-close><span class="idx">05</span>Studio</a>
+  <a href="#journal" data-drawer-close><span class="idx">06</span>Journal</a>
+  <a href="#apply" data-drawer-close><span class="idx">07</span>Contact</a>
+  <button class="drawer-cta" data-book>Book a 20-min call</button>
+  <div class="drawer-foot">
+    <span>TORONTO · SINCE 2021</span>
+    <span>KLAVIYO PLATINUM PARTNER</span>
+    <span>hello@nudgestudio.com</span>
+  </div>
+</aside>
+
+<!-- HERO -->
+<section class="hero section" style="padding-top: 180px; padding-bottom: 80px;">
+  <div class="container">
+    <div class="eyebrow" data-reveal style="display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <span>Retention studio</span>
+      <span aria-hidden="true" style="color: var(--line-2);">·</span>
+      <span style="color: var(--accent);">Klaviyo Platinum Partner</span>
+    </div>
+    <h1 class="display display-xl" id="hero-headline" style="margin: 40px 0 0;" data-reveal>
+      Cult brands, compounding revenue.
+    </h1>
+    <p class="lede" style="margin: 48px 0 0; max-width: 60ch;" data-reveal>
+      We build email &amp; SMS programs for founder-led consumer brands
+      — and the celebrity brands sitting next to them on shelves.
+      <span style="color: var(--accent);">Retention is all we do.</span>
+    </p>
+    <div class="chips" style="margin-top: 32px;" data-reveal>
+      <span class="chip"><span class="num">$100M+</span> generated</span>
+      <span class="chip"><span class="num">2,500+</span> campaigns</span>
+      <span class="chip"><span class="num">5</span> celebrity brands</span>
+    </div>
+    <div class="row" style="gap: 16px; margin-top: 56px; flex-wrap: wrap; align-items: center;" data-reveal>
+      <button class="btn btn-primary" data-book>
+        <span class="live-dot"></span>Book a 20-min intro call
+      </button>
+      <a href="#work-preview" class="btn btn-ghost">See the work →</a>
+      <span class="avail"><span class="pulse"></span>2 partner slots open · Q3 2026</span>
+    </div>
+
+    <!-- Hero visual strip: inbox preview + placeholder -->
+    <div class="hero-grid" style="margin-top: 96px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: stretch;" data-reveal>
+      <div class="inbox">
+        <div class="inbox-chrome">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span style="margin-left:8px;">INBOX — LAUNCH SEQUENCE PREVIEW</span>
+        </div>
+        <div class="inbox-row unread">
+          <span class="inbox-from">Boy Smells</span>
+          <span class="inbox-subj">The candle that started it all — back, briefly
+            <span class="preview"> · 72 hours, list-only, then it's gone again.</span></span>
+          <span class="inbox-time">9:42 AM</span>
+        </div>
+        <div class="inbox-row unread">
+          <span class="inbox-from">Little Saints</span>
+          <span class="inbox-subj">Friday feeling, Saturday morning
+            <span class="preview"> · A non-alc ritual for the weekend.</span></span>
+          <span class="inbox-time">8:11 AM</span>
+        </div>
+        <div class="inbox-row">
+          <span class="inbox-from">Rainbo</span>
+          <span class="inbox-subj">Your reishi is ready — VIP early access inside
+            <span class="preview"> · Before we open the doors to everyone…</span></span>
+          <span class="inbox-time">Yesterday</span>
+        </div>
+        <div class="inbox-row">
+          <span class="inbox-from">Graymatter</span>
+          <span class="inbox-subj">A quieter way to think clearly
+            <span class="preview"> · The new formulation is on the list now.</span></span>
+          <span class="inbox-time">Mon</span>
+        </div>
+        <div class="inbox-row">
+          <span class="inbox-from">Sidia</span>
+          <span class="inbox-subj">Midas, before it's anywhere else
+            <span class="preview"> · Liquid gold for the senses — list-only, 48 hours.</span></span>
+          <span class="inbox-time">Mon</span>
+        </div>
+        <div class="inbox-row">
+          <span class="inbox-from">Matty Matheson</span>
+          <span class="inbox-subj">The launch, without the discount
+            <span class="preview"> · We decided to do something different this time.</span></span>
+          <span class="inbox-time">Sun</span>
+        </div>
+        <div class="inbox-row">
+          <span class="inbox-from">Oishii</span>
+          <span class="inbox-subj">The Omakase Berry, back in season
+            <span class="preview"> · A note from the farm before public release.</span></span>
+          <span class="inbox-time">Sun</span>
+        </div>
+      </div>
+      <div class="ph" style="min-height: 100%;">
+        <span class="ph-label">hero reel — looping campaign stills, silent</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<section aria-label="Our clients">
+  <div class="marquee-wrap">
+    <div class="marquee-row">
+      <div class="marquee">
+        <span class="logo">Matty's World</span>
+        <span class="logo">Calirosa</span>
+        <span class="logo">Little Saints</span>
+        <span class="logo">Oishii</span>
+        <span class="logo">Alaskan King Crab</span>
+        <span class="logo">Matheson Cookware</span>
+        <span class="logo">Boy Smells</span>
+        <span class="logo">Sidia</span>
+        <span class="logo">Barbet</span>
+        <span class="logo">Matty's World</span>
+        <span class="logo">Calirosa</span>
+        <span class="logo">Little Saints</span>
+        <span class="logo">Oishii</span>
+        <span class="logo">Alaskan King Crab</span>
+        <span class="logo">Matheson Cookware</span>
+        <span class="logo">Boy Smells</span>
+        <span class="logo">Sidia</span>
+        <span class="logo">Barbet</span>
+      </div>
+    </div>
+    <div class="marquee-row">
+      <div class="marquee" style="animation-duration: 80s; animation-direction: reverse;">
+        <span class="logo">Rainbo</span>
+        <span class="logo">Sero</span>
+        <span class="logo">Mother Root</span>
+        <span class="logo">Happy Tuesdays</span>
+        <span class="logo">Create Wellness</span>
+        <span class="logo">Graymatter</span>
+        <span class="logo">Sacred Farm</span>
+        <span class="logo">Bather</span>
+        <span class="logo">Winpro</span>
+        <span class="logo">Rainbo</span>
+        <span class="logo">Sero</span>
+        <span class="logo">Mother Root</span>
+        <span class="logo">Happy Tuesdays</span>
+        <span class="logo">Create Wellness</span>
+        <span class="logo">Graymatter</span>
+        <span class="logo">Sacred Farm</span>
+        <span class="logo">Bather</span>
+        <span class="logo">Winpro</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER STRIP -->
+<section class="section-t" aria-label="From the founder">
+  <div class="container">
+    <div class="founder" data-reveal>
+      <div class="founder-photo"><span class="ph-label">PHOTO — Leo, on set</span></div>
+      <div>
+        <div class="eyebrow">From the founder</div>
+        <h3 class="founder-name">Leo Gubbins</h3>
+        <div class="founder-role">Founder &amp; Partner · Nudge Studio</div>
+        <p class="founder-quote">Most agencies sell you a calendar. We sell you a system. The brands that win on retention treat their list like a P&amp;L line — and we run it that way too.</p>
+        <div class="founder-meta">
+          <span>7 years in Ecommerce</span>
+          <span>60+ programs shipped</span>
+          <span>leo@nudgestudio.xyz</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PITCH -->
+<section class="section section-t">
+  <div class="container" style="max-width: 1100px;">
+    <div class="eyebrow" data-reveal>001 — Thesis</div>
+    <p class="display display-m" style="margin: 40px 0 0; font-weight: 300; text-wrap: pretty; letter-spacing: -0.025em; line-height: 1.05;" data-reveal>
+      Most email &amp; SMS programs are built to hit send.
+      <span style="color: var(--muted);">Ours are built to compound.</span>
+      We design retention systems — flows, campaigns, segmentation, SMS, popups, loyalty —
+      that make your highest-intent customers feel like insiders, and turn your list
+      into the most predictable revenue line on your P&amp;L.
+    </p>
+    <div style="margin-top: 48px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center;" data-reveal>
+      <a href="#method" class="btn-link">How we think →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRESS STRIP -->
+<section class="section-t" style="padding: 56px 0 32px;">
+  <div class="container">
+    <div class="eyebrow" style="text-align: center;" data-reveal>Our brands are regularly featured in</div>
+    <div class="partners" data-reveal style="margin-top: 32px;">
+      <span class="partner">Modern Retail</span>
+      <span class="partner">Retail Brew</span>
+      <span class="partner">Business of Fashion</span>
+      <span class="partner">AdWeek</span>
+      <span class="partner">Glossy</span>
+      <span class="partner">The Drum</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED CASE STUDIES -->
+<section class="section section-t work-section" id="work-preview">
+  <div class="container work-container">
+    <div class="between" style="margin-bottom: 56px; align-items: flex-end;" data-reveal>
+      <div>
+        <div class="eyebrow">002 — Selected work</div>
+        <h2 class="display display-l" style="margin: 16px 0 0;">Proof, not promises.</h2>
+      </div>
+      <a href="#" class="btn-link">All case studies →</a>
+    </div>
+
+    <div class="case-grid">
+      <article class="case-tile" data-reveal>
+        <div class="case-img"><div class="ph"><span class="ph-label">BFCM hero — Rainbo</span></div></div>
+        <div class="case-meta-row">
+          <h3 class="case-brand">Rainbo</h3>
+          <span class="case-outcome">+53.9% BFCM revenue</span>
+        </div>
+        <p class="case-desc">A full Klaviyo replatform and BFCM campaign sprint for a woman-owned functional mushroom brand.</p>
+        <div class="case-kpi-line">
+          <span class="case-kpi-v">31%</span>
+          <span class="case-kpi-l">Email &amp; SMS share of revenue</span>
+        </div>
+        <div class="case-tags"><span>Email</span><span>SMS</span><span>Klaviyo</span><span class="case-flag">Placeholder KPI</span></div>
+      </article>
+
+      <article class="case-tile" data-reveal>
+        <div class="case-img"><div class="ph"><span class="ph-label">campaign hero — Boy Smells</span></div></div>
+        <div class="case-meta-row">
+          <h3 class="case-brand">Boy Smells</h3>
+          <span class="case-outcome">Hero-product retention</span>
+        </div>
+        <p class="case-desc">Lifecycle &amp; campaign architecture for a cult fragrance brand — protecting brand voice through scale.</p>
+        <div class="case-kpi-line">
+          <span class="case-kpi-v">36%</span>
+          <span class="case-kpi-l">Email &amp; SMS share of revenue</span>
+        </div>
+        <div class="case-tags"><span>Lifecycle</span><span>Campaigns</span><span>Klaviyo</span><span class="case-flag">Placeholder KPI</span></div>
+      </article>
+
+      <article class="case-tile" data-reveal>
+        <div class="case-img"><div class="ph"><span class="ph-label">launch campaign — Matty's World</span></div></div>
+        <div class="case-meta-row">
+          <h3 class="case-brand">Matty's World</h3>
+          <span class="case-outcome">Launch without discount</span>
+        </div>
+        <p class="case-desc">Rebrand launch, category reset, and product-discovery lifecycle for a culture-first CPG.</p>
+        <div class="case-kpi-line">
+          <span class="case-kpi-v">+221%</span>
+          <span class="case-kpi-l">List growth, 90 days</span>
+        </div>
+        <div class="case-tags"><span>Lifecycle</span><span>Brand</span><span>Launch</span><span class="case-flag">Placeholder KPI</span></div>
+      </article>
+
+      <article class="case-tile" data-reveal>
+        <div class="case-img"><div class="ph"><span class="ph-label">portal redesign — Little Saints</span></div></div>
+        <div class="case-meta-row">
+          <h3 class="case-brand">Little Saints</h3>
+          <span class="case-outcome">Online business 2×</span>
+        </div>
+        <p class="case-desc">Subscription portal and content-driven retention for the non-alc leader.</p>
+        <div class="case-kpi-line">
+          <span class="case-kpi-v">34%</span>
+          <span class="case-kpi-l">Email &amp; SMS share of revenue</span>
+        </div>
+        <div class="case-tags"><span>Portal</span><span>Subscription</span><span>Email &amp; SMS</span><span class="case-flag">Placeholder KPI</span></div>
+      </article>
+
+      <article class="case-tile" data-reveal>
+        <div class="case-img"><div class="ph"><span class="ph-label">wine club lifecycle — Clif Family Winery</span></div></div>
+        <div class="case-meta-row">
+          <h3 class="case-brand">Clif Family Winery</h3>
+          <span class="case-outcome">Wine club, compounding</span>
+        </div>
+        <p class="case-desc">Member lifecycle, allocation campaigns, and tasting-room CRM for a Napa Valley estate brand.</p>
+        <div class="case-kpi-line">
+          <span class="case-kpi-v">+47%</span>
+          <span class="case-kpi-l">Club-driven revenue, YoY</span>
+        </div>
+        <div class="case-tags"><span>Lifecycle</span><span>Loyalty</span><span>Email</span><span class="case-flag">Placeholder KPI</span></div>
+      </article>
+
+      <article class="case-tile" data-reveal>
+        <div class="case-img"><div class="ph"><span class="ph-label">editorial campaign — Montserrat Messeguer</span></div></div>
+        <div class="case-meta-row">
+          <h3 class="case-brand">Montserrat Messeguer</h3>
+          <span class="case-outcome">Flow Overhaul</span>
+        </div>
+        <p class="case-desc">Slow-fashion lifecycle and seasonal drop campaigns for a designer-led ready-to-wear label.</p>
+        <div class="case-kpi-line">
+          <span class="case-kpi-v">29%</span>
+          <span class="case-kpi-l">Email &amp; SMS share of revenue</span>
+        </div>
+        <div class="case-tags"><span>Editorial</span><span>Drops</span><span>Email</span><span class="case-flag">Placeholder KPI</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats" aria-label="The numbers">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat" data-reveal>
+        <span class="stat-meta">01</span>
+        <div class="stat-num">$<span data-count="100">100</span><span class="unit">M+</span></div>
+        <p class="stat-label">Revenue generated for brand partners via email &amp; SMS.</p>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat-meta">02</span>
+        <div class="stat-num"><span data-count="2500">2,500</span><span class="unit">+</span></div>
+        <p class="stat-label">Campaigns &amp; flows shipped — with names on each one.</p>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat-meta">03</span>
+        <div class="stat-num"><span data-count="32">32</span><span class="unit">%</span></div>
+        <p class="stat-label">Avg. share of revenue from email &amp; SMS, 12 months in.</p>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat-meta">04</span>
+        <div class="stat-num"><span data-count="98.6" data-decimals="1">98.6</span><span class="unit">%</span></div>
+        <p class="stat-label">Average inbox placement across managed domains.<br><span style="font-size: 11px; color: var(--muted-2);">*Seedlist + panel testing across Gmail, Yahoo, Outlook, Apple.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="between" style="margin-bottom: 64px; align-items: flex-end;" data-reveal>
+      <div>
+        <div class="eyebrow">003 — What we do</div>
+        <h2 class="display display-l" style="margin: 16px 0 0;">Four disciplines. <span style="color: var(--muted);">One retention system.</span></h2>
+      </div>
+      <a href="#" class="btn-link">See all services →</a>
+    </div>
+
+    <div class="svc-grid">
+      <div class="svc" data-reveal>
+        <div>
+          <div class="svc-num">01 / STRATEGY</div>
+          <h3 class="svc-title">Lifecycle Architecture</h3>
+          <p class="svc-desc">Journey mapping, segmentation, and retention audits that forecast revenue before we ship a thing.</p>
+        </div>
+        <a class="svc-link" href="#">Learn more</a>
+      </div>
+      <div class="svc" data-reveal>
+        <div>
+          <div class="svc-num">02 / CREATIVE</div>
+          <h3 class="svc-title">Design &amp; Art Direction</h3>
+          <p class="svc-desc">Brand-native email, SMS, popups, and landing experiences that look like the brand — not a template.</p>
+        </div>
+        <a class="svc-link" href="#">Learn more</a>
+      </div>
+      <div class="svc" data-reveal>
+        <div>
+          <div class="svc-num">03 / EDITORIAL</div>
+          <h3 class="svc-title">Copy &amp; Voice Systems</h3>
+          <p class="svc-desc">Voice guidelines and campaign storytelling for brands that actually care how they sound.</p>
+        </div>
+        <a class="svc-link" href="#">Learn more</a>
+      </div>
+      <div class="svc" data-reveal>
+        <div>
+          <div class="svc-num">04 / BUILD</div>
+          <h3 class="svc-title">Klaviyo &amp; Optimization</h3>
+          <p class="svc-desc">Implementation, A/B testing, deliverability, and reporting that turns data into decisions.</p>
+        </div>
+        <a class="svc-link" href="#">Learn more</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="section section-t" id="method" style="background: var(--bg-1);">
+  <div class="container">
+    <div class="between" style="margin-bottom: 64px; align-items: flex-end;" data-reveal>
+      <div>
+        <div class="eyebrow">004 — The Nudge Method™</div>
+        <h2 class="display display-l" style="margin: 16px 0 0;">The Nudge Method™ — <em style="font-family: var(--display); font-style: italic; color: var(--accent);">a studio process, not a playbook</em>.</h2>
+      </div>
+      <a href="#" class="btn-link">Read the full method →</a>
+    </div>
+
+    <div class="method-grid">
+      <div class="method-step" data-reveal>
+        <div class="method-num"><span class="accent">0</span>1</div>
+        <div class="method-title">Audit</div>
+        <p class="method-desc">We teardown what you have — list health, flows, deliverability, revenue attribution. Scored report in 10 business days.</p>
+      </div>
+      <div class="method-step" data-reveal>
+        <div class="method-num"><span class="accent">0</span>2</div>
+        <div class="method-title">Architect</div>
+        <p class="method-desc">We map the lifecycle by segment, forecast revenue, and put a number on what's possible.</p>
+      </div>
+      <div class="method-step" data-reveal>
+        <div class="method-num"><span class="accent">0</span>3</div>
+        <div class="method-title">Activate</div>
+        <p class="method-desc">We design, write, QA, and launch — in brand voice, with deliverability inspected.</p>
+      </div>
+      <div class="method-step" data-reveal>
+        <div class="method-num"><span class="accent">0</span>4</div>
+        <div class="method-title">Amplify</div>
+        <p class="method-desc">We iterate weekly against a revenue target. Monthly reviews, quarterly deep-dives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABILITY MOAT -->
+<section class="section" id="deliverability">
+  <div class="container">
+    <div class="between" style="align-items: flex-end;" data-reveal>
+      <div>
+        <div class="eyebrow">005 — The deliverability moat</div>
+        <h2 class="display display-l" style="margin: 16px 0 0;">Most retention agencies bluff here. <span style="color: var(--muted);">We don't.</span></h2>
+      </div>
+    </div>
+
+    <div class="moat-grid">
+      <div class="moat-list" data-reveal>
+        <div class="moat-item">
+          <div class="moat-num">01</div>
+          <div>
+            <h3 class="moat-title">DMARC, DKIM, SPF — done right.</h3>
+            <p class="moat-desc">We set up your sending domain end-to-end, monitor reports, and tighten policy as reputation builds. No more "why did Gmail tab us?".</p>
+          </div>
+        </div>
+        <div class="moat-item">
+          <div class="moat-num">02</div>
+          <div>
+            <h3 class="moat-title">Inbox-placement testing.</h3>
+            <p class="moat-desc">Seedlist + panel testing across Gmail, Yahoo, Outlook, Apple Mail. Every campaign, every domain, every audience tier.</p>
+          </div>
+        </div>
+        <div class="moat-item">
+          <div class="moat-num">03</div>
+          <div>
+            <h3 class="moat-title">Sender-reputation triage.</h3>
+            <p class="moat-desc">List warmup, segment pruning, complaint-rate forensics. We've recovered domains from sub-90% to 99%+ in 30 days.</p>
+          </div>
+        </div>
+        <div class="moat-item">
+          <div class="moat-num">04</div>
+          <div>
+            <h3 class="moat-title">Klaviyo at the API level.</h3>
+            <p class="moat-desc">Custom events, profile properties, server-side integrations. We don't drag blocks. We write integrations.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="moat-card" data-reveal>
+        <div class="moat-card-eyebrow">Live across managed domains · last 30 days</div>
+        <div class="moat-card-num">98<span class="accent">.6</span><span style="font-size: 0.5em; color: var(--accent);">%</span></div>
+        <div class="moat-card-sub">Average inbox placement</div>
+        <div class="moat-bars">
+          <div class="moat-bar"><span class="moat-bar-label">Gmail</span><span class="moat-bar-track"><span class="moat-bar-fill" style="width: 99.1%;"></span></span><span class="moat-bar-val">99.1%</span></div>
+          <div class="moat-bar"><span class="moat-bar-label">Yahoo</span><span class="moat-bar-track"><span class="moat-bar-fill" style="width: 98.4%;"></span></span><span class="moat-bar-val">98.4%</span></div>
+          <div class="moat-bar"><span class="moat-bar-label">Outlook</span><span class="moat-bar-track"><span class="moat-bar-fill" style="width: 97.6%;"></span></span><span class="moat-bar-val">97.6%</span></div>
+          <div class="moat-bar"><span class="moat-bar-label">Apple</span><span class="moat-bar-track"><span class="moat-bar-fill" style="width: 99.4%;"></span></span><span class="moat-bar-val">99.4%</span></div>
+        </div>
+        <div class="moat-card-foot">[Placeholder seedlist data — swap with your last 30-day average.]</div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="studio">
+  <div class="container">
+    <div class="eyebrow" data-reveal>006 — In their words</div>
+    <h2 class="display display-l" style="margin: 16px 0 64px;" data-reveal>The people who hired us.</h2>
+
+    <div class="testimonial-grid">
+      <div class="testimonial" data-reveal>
+        <p class="testimonial-quote">Our account team took the time to listen and learn before recommending an enhanced user experience. Our online business has since doubled, and we continue to hear praise about our customer portal.</p>
+        <div class="testimonial-foot">
+          <div class="avatar">KG</div>
+          <div>
+            <div class="testimonial-name">Katie Green</div>
+            <div class="testimonial-title">CMO · Little Saints</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial" data-reveal>
+        <p class="testimonial-quote">Nudge and Recharge worked together efficiently and on an extremely expedited timeline. The performance of our subscriptions program on Shopify Plus has exceeded expectations.</p>
+        <div class="testimonial-foot">
+          <div class="avatar">DJ</div>
+          <div>
+            <div class="testimonial-name">Dee Jensen</div>
+            <div class="testimonial-title">Marketing Director · Sero</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial" data-reveal>
+        <p class="testimonial-quote">Nudge has consistently demonstrated a deep understanding of e-commerce and a commitment to delivering exceptional solutions.</p>
+        <div class="testimonial-foot">
+          <div class="avatar">MT</div>
+          <div>
+            <div class="testimonial-name">Marika Thoms</div>
+            <div class="testimonial-title">Marketing &amp; Sales · Matty's World</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS / RETENTION STACK -->
+<section class="section section-t" style="padding: 72px 0;">
+  <div class="container">
+    <div class="between" style="align-items: flex-end;" data-reveal>
+      <div>
+        <div class="eyebrow">007 — The retention stack</div>
+        <h2 class="display display-l" style="margin: 16px 0 0;">Certified across the stack <span style="color: var(--muted);">we live in.</span></h2>
+      </div>
+    </div>
+    <div class="partners" data-reveal style="margin-top: 48px;">
+      <span class="partner">Klaviyo Platinum</span>
+      <span class="partner">Postscript</span>
+      <span class="partner">Attentive</span>
+      <span class="partner">Recharge</span>
+      <span class="partner">Yotpo</span>
+      <span class="partner">Shopify Plus</span>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section class="section section-t" id="journal">
+  <div class="container">
+    <div class="between" style="margin-bottom: 64px; align-items: flex-end;" data-reveal>
+      <div>
+        <div class="eyebrow">009 — The journal</div>
+        <h2 class="display display-l" style="margin: 16px 0 0;">We have opinions.</h2>
+      </div>
+      <a href="#" class="btn-link">Read the journal →</a>
+    </div>
+
+    <div class="journal-grid">
+      <article class="journal-card" data-reveal>
+        <div class="ph"><span class="ph-label">teardown cover — Rainbo BFCM</span></div>
+        <div class="journal-cat">Teardown</div>
+        <h3 class="journal-title">The 9 flows every $1M+ Shopify brand is running wrong</h3>
+        <div class="journal-byline">Alex R · 12 min read · Mar '26</div>
+      </article>
+      <article class="journal-card" data-reveal>
+        <div class="ph"><span class="ph-label">diagram — segmentation tree</span></div>
+        <div class="journal-cat">Playbook</div>
+        <h3 class="journal-title">BFCM is a segmentation problem, not a calendar problem</h3>
+        <div class="journal-byline">Dani S · 8 min read · Feb '26</div>
+      </article>
+      <article class="journal-card" data-reveal>
+        <div class="ph"><span class="ph-label">case image — Matty's launch</span></div>
+        <div class="journal-cat">Case note</div>
+        <h3 class="journal-title">How Matty's World launched without a discount</h3>
+        <div class="journal-byline">Jon P · 6 min read · Feb '26</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="apply-band" id="apply">
+  <div class="container">
+    <div class="apply-grid">
+      <div class="apply-copy" data-reveal>
+        <div class="eyebrow">010 — Work with us</div>
+        <h2 class="display display-l" style="margin-top: 20px;">
+          Six to eight brands.<br>
+          <span style="color: var(--muted);">At a time.</span>
+        </h2>
+        <p class="lede" style="margin-top: 32px;">
+          We partner with consumer brands doing <b>$100K+ in monthly revenue</b>. If yours isn't pulling 25–35% of that from email &amp; SMS, we should talk.
+        </p>
+        <div class="apply-note">
+          <div style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; margin-bottom: 12px;">Response time</div>
+          Within 24 hours from a senior partner. Not an SDR. Not a chatbot.
+        </div>
+      </div>
+
+      <div>
+        <form class="form" id="apply-form" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label>Your name<span class="req">*</span></label>
+              <input type="text" name="first" required>
+            </div>
+            <div class="field">
+              <label>Job title<span class="req">*</span></label>
+              <input type="text" name="title" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Company website<span class="req">*</span></label>
+              <input type="text" name="company" required>
+            </div>
+            <div class="field">
+              <label>Email<span class="req">*</span></label>
+              <input type="email" name="email" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Services needed</label>
+            <div class="multi">
+              <input type="checkbox" id="s1"><label for="s1">Full Retention Services</label>
+              <input type="checkbox" id="s2"><label for="s2">Retention Audit &amp; Strategy</label>
+              <input type="checkbox" id="s3"><label for="s3">Klaviyo Technical Services</label>
+              <input type="checkbox" id="s4"><label for="s4">Domain Reputation Services</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Monthly engagement budget<span class="req">*</span></label>
+              <select name="budget" required>
+                <option value="">Select a range</option>
+                <option value="6-10">$6K – $10K</option>
+                <option value="10-15">$10K – $15K</option>
+                <option value="20+">$20K+</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>How did you hear about us?</label>
+              <select name="source">
+                <option value="">Select an option</option>
+                <option value="referral">Referral from a friend or peer</option>
+                <option value="klaviyo">Klaviyo Partner Directory</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="instagram">Instagram</option>
+                <option value="google">Google search</option>
+                <option value="podcast">Podcast or newsletter</option>
+                <option value="event">Event or conference</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Annual company revenue<span class="req">*</span></label>
+              <select name="revenue" required>
+                <option value="">Select a range</option>
+                <option value="800k-1.2m">$800K – $1.2M</option>
+                <option value="1.2-5m">$1.2M – $5M</option>
+                <option value="5-15m">$5M – $15M</option>
+                <option value="15-50m">$15M – $50M</option>
+                <option value="50m+">$50M+</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>When should we start?<span class="req">*</span></label>
+              <select name="timeline" required>
+                <option value="">Select a timeline</option>
+                <option value="asap">As soon as possible</option>
+                <option value="1m">Within 1 month</option>
+                <option value="1-3m">1–3 months</option>
+                <option value="3-6m">3–6 months</option>
+                <option value="exploring">Just exploring</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Tell us about your project</label>
+            <textarea name="notes" rows="4" placeholder="Current monthly revenue, ESP status, what's broken, what success looks like…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="justify-content: center; padding: 18px 22px;">
+            <span class="live-dot"></span>Apply to partner
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <h4>The Compound</h4>
+        <p style="color: var(--muted); font-size: 14px; max-width: 32ch; margin: 0;">Sundays · 7:00 ET. <a href="#" style="color: var(--fg); border-bottom: 1px solid var(--accent);">Subscribe →</a></p>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#studio">About</a></li>
+          <li><a href="#method">Method</a></li>
+          <li><a href="#work-preview">Work</a></li>
+          <li><a href="#journal">Journal</a></li>
+          <li><a href="#">Scorecard</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div>
+            <h4>HQ</h4>
+            <ul style="font-size: 14px; color: var(--fg-2);">
+              <li>468 King Street West</li>
+              <li>Suite 400</li>
+              <li>Toronto, ON M5V 1L8</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Social</h4>
+            <ul>
+              <li><a href="#">LinkedIn</a></li>
+              <li><a href="#">Instagram</a></li>
+              <li><a href="#">X</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instrument bar — live from the studio -->
+    <div class="instr-bar" aria-label="Studio conditions">
+      <div class="instr-top">
+        <span class="dot-live"></span>
+        <span>Live from the Studio</span>
+        <span class="sep">·</span>
+        <span>Measured <time id="instr-clock">—</time> EST</span>
+        <span class="sep">·</span>
+        <span>Refreshed every 60 s</span>
+      </div>
+      <div class="instr-strip">
+        <div class="instr-cell">
+          <span class="instr-n">01 · Lists under management</span>
+          <span class="instr-v">14.2<span class="u">M</span></span>
+          <span class="instr-note">Active subscribers across partners</span>
+        </div>
+        <div class="instr-cell">
+          <span class="instr-n">02 · Sends this month</span>
+          <span class="instr-v">142M<span class="u">/ 8.1M SMS</span></span>
+          <span class="instr-note">Email · SMS combined</span>
+        </div>
+        <div class="instr-cell">
+          <span class="instr-n">03 · Avg. inbox placement</span>
+          <span class="instr-v">98.6<span class="u">%</span></span>
+          <span class="instr-note">Across Gmail / Yahoo / Outlook / Apple</span>
+        </div>
+        <div class="instr-cell">
+          <span class="instr-n">04 · Avg. client tenure</span>
+          <span class="instr-v">22<span class="u">mo</span></span>
+          <span class="instr-note">92% retainer renewal</span>
+        </div>
+        <div class="instr-cell">
+          <span class="instr-n">05 · Senior reply</span>
+          <span class="instr-v">24<span class="u">hrs</span></span>
+          <span class="instr-note">Senior partner · not an SDR</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-sign" aria-hidden="true">Nudge<span class="faint">/Studio</span></div>
+
+    <div class="footer-bottom">
+      <span>© 2026 NUDGE STUDIO</span>
+      <span>KLAVIYO PLATINUM PARTNER · SHOPIFY PARTNER</span>
+      <span>PRIVACY · TERMS</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Book modal -->
+<div class="modal-wrap" id="book-modal">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close" id="modal-close">×</button>
+    <div class="meta">20-MINUTE INTRO CALL</div>
+    <h2 class="display display-m" style="margin: 16px 0 8px;">Let's see if it's a fit.</h2>
+    <p class="lede" style="margin: 0 0 32px;">Pick a time. Leo or a senior partner will be on the other end — no SDR.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div>
+        <div class="meta" style="margin-bottom: 12px;">THIS WEEK</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn btn-ghost" style="justify-content: space-between;">Tue · 10:00 AM ET <span style="color: var(--muted)">→</span></button>
+          <button class="btn btn-ghost" style="justify-content: space-between;">Tue · 2:30 PM ET <span style="color: var(--muted)">→</span></button>
+          <button class="btn btn-ghost" style="justify-content: space-between;">Wed · 11:00 AM ET <span style="color: var(--muted)">→</span></button>
+          <button class="btn btn-ghost" style="justify-content: space-between;">Thu · 4:00 PM ET <span style="color: var(--muted)">→</span></button>
+        </div>
+      </div>
+      <div>
+        <div class="meta" style="margin-bottom: 12px;">WHAT TO EXPECT</div>
+        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; font-size: 14px; color: var(--fg-2);">
+          <li>—  Brands doing $100K+/mo in revenue</li>
+          <li>—  A senior partner, not a salesperson</li>
+          <li>—  A quick look at your current program</li>
+          <li>—  Honest answer on whether we're a fit</li>
+          <li>—  Follow-up proposal within 48 hours</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile sticky CTA bar -->
+<div class="sticky-cta" role="region" aria-label="Quick actions">
+  <button class="sticky-cta-btn btn btn-primary" data-book>
+    <span class="live-dot"></span>Book a call
+  </button>
+</div>
+
+<script>
+(function() {
+  // ---------- Reveal observer ----------
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('[data-reveal]').forEach(function(el, i) {
+    el.style.setProperty('--delay', (i % 5 * 60) + 'ms');
+    io.observe(el);
+  });
+
+  // ---------- Nav scroll state ----------
+  var nav = document.getElementById('nav');
+  function onScroll() {
+    if (window.scrollY > 8) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ---------- Theme toggle ----------
+  var themes = ['dark', 'light', 'paper'];
+  var labels = { dark: 'Light', light: 'Paper', paper: 'Dark' };
+  var btn = document.getElementById('theme-toggle');
+  function setTheme(t) {
+    document.body.setAttribute('data-theme', t);
+    btn.textContent = labels[t];
+  }
+  btn.addEventListener('click', function() {
+    var cur = document.body.getAttribute('data-theme') || 'dark';
+    var next = themes[(themes.indexOf(cur) + 1) % themes.length];
+    setTheme(next);
+  });
+
+  // ---------- Mobile drawer ----------
+  var drawer = document.getElementById('mobile-drawer');
+  var drawerToggle = document.getElementById('drawer-toggle');
+  function openDrawer() {
+    drawer.classList.add('open');
+    document.body.classList.add('drawer-open');
+    drawer.setAttribute('aria-hidden', 'false');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    drawer.setAttribute('aria-hidden', 'true');
+  }
+  drawerToggle.addEventListener('click', function() {
+    if (drawer.classList.contains('open')) closeDrawer();
+    else openDrawer();
+  });
+  document.querySelectorAll('[data-drawer-close]').forEach(function(a) {
+    a.addEventListener('click', closeDrawer);
+  });
+
+  // ---------- Book modal ----------
+  var modal = document.getElementById('book-modal');
+  var close = document.getElementById('modal-close');
+  function openModal() { modal.classList.add('open'); }
+  function closeModal() { modal.classList.remove('open'); }
+  document.querySelectorAll('[data-book]').forEach(function(b) {
+    b.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeDrawer();
+      openModal();
+    });
+  });
+  close.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeModal(); closeDrawer(); }
+  });
+
+  // ---------- Stats counter ----------
+  var counted = false;
+  function animateCount(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var start = 0; var dur = 1400; var t0 = performance.now();
+    function step(now) {
+      var p = Math.min(1, (now - t0) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      var v = start + (target - start) * eased;
+      el.textContent = decimals > 0 ? v.toFixed(decimals) : Math.round(v).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var statsSection = document.querySelector('.stats');
+  if (statsSection) {
+    var statsIO = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting && !counted) {
+          counted = true;
+          document.querySelectorAll('[data-count]').forEach(animateCount);
+          statsIO.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    statsIO.observe(statsSection);
+  }
+
+  // ---------- Instrument bar clock ----------
+  var clock = document.getElementById('instr-clock');
+  function updateClock() {
+    if (!clock) return;
+    var d = new Date();
+    var et = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/New_York' }).format(d);
+    clock.textContent = et;
+  }
+  updateClock();
+  setInterval(updateClock, 60000);
+
+  // ---------- Form submit (demo) ----------
+  var form = document.getElementById('apply-form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      btn.textContent = 'Sent — talk soon';
+      btn.disabled = true;
+    });
+  }
+
+  // ---------- Smooth scroll for in-page anchors ----------
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var id = a.getAttribute('href');
+      if (id.length > 1) {
+        var t = document.querySelector(id);
+        if (t) { e.preventDefault(); closeDrawer(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
